@@ -11,11 +11,22 @@ async function goiApi(action, params) {
   Object.keys(params).forEach(k => {
     if (params[k] !== undefined && params[k] !== null) url.searchParams.set(k, params[k]);
   });
+  
+  if (DEBUG) {
+    console.log(`📤 Gọi API: ${action}`, params);
+    console.log(`🔗 URL: ${url.toString()}`);
+  }
+  
   try {
     const res = await fetch(url.toString());
     if (!res.ok) throw new Error('HTTP ' + res.status);
-    return await res.json();
+    const data = await res.json();
+    if (DEBUG) {
+      console.log(`📥 Phản hồi từ ${action}:`, data);
+    }
+    return data;
   } catch (err) {
+    console.error(`❌ Lỗi API ${action}:`, err);
     hienToast('Lỗi kết nối máy chủ: ' + err.message);
     return { success: false, message: 'Lỗi kết nối máy chủ.' };
   }
@@ -58,6 +69,29 @@ function moModal(html) {
   ov.style.display = 'flex';
 }
 
+// ============ TẠO INPUT PASSWORD CÓ NÚT ẨN/HIỆN ============
+function taoInputPassword(id, placeholder) {
+  return `
+    <div class="password-wrapper">
+      <input type="password" id="${id}" placeholder="${placeholder || 'Nhập mật khẩu'}">
+      <button type="button" class="password-toggle" onclick="togglePassword('${id}')">👁️</button>
+    </div>
+  `;
+}
+
+function togglePassword(id) {
+  const input = document.getElementById(id);
+  if (!input) return;
+  const btn = input.parentElement.querySelector('.password-toggle');
+  if (input.type === 'password') {
+    input.type = 'text';
+    btn.textContent = '🙈';
+  } else {
+    input.type = 'password';
+    btn.textContent = '👁️';
+  }
+}
+
 // ============ CHỌN VAI TRÒ ============
 function chonVaiTro(role) {
   VAI_TRO = role;
@@ -73,7 +107,7 @@ function moDangNhapAdmin() {
     <div class="modal-box">
       <h3>🛡️ Đăng nhập quản trị</h3>
       <div class="modal-sub">Nhập mật khẩu quản trị viên để tiếp tục</div>
-      <input type="password" id="inpAdminPass" placeholder="Mật khẩu">
+      ${taoInputPassword('inpAdminPass', 'Nhập mật khẩu')}
       <div class="modal-actions">
         <button class="btn btn-outline" onclick="dongModal()">Huỷ</button>
         <button class="btn btn-primary" onclick="thucHienDangNhapAdmin()">Đăng nhập</button>
@@ -85,13 +119,30 @@ function moDangNhapAdmin() {
 async function thucHienDangNhapAdmin() {
   const pass = document.getElementById('inpAdminPass').value;
   if (!pass) { hienToast('Vui lòng nhập mật khẩu'); return; }
+  
+  console.log('🔑 Đang kiểm tra mật khẩu với Apps Script...');
+  
+  // TEST MODE: Nếu bạn muốn test trực tiếp không qua API
+  // Bỏ comment dòng dưới và comment phần gọi API để test
+  // if (pass === "admin2026") {
+  //   ADMIN_PASS = pass;
+  //   dongModal();
+  //   hienToast('✅ Đăng nhập thành công! (test mode)');
+  //   chonVaiTro('admin');
+  //   return;
+  // }
+  
   const res = await goiApi('verifyAdminPassword', { password: pass });
+  console.log('📦 Kết quả từ server:', res);
+  
   if (res.success && res.valid) {
     ADMIN_PASS = pass;
     dongModal();
+    hienToast('✅ Đăng nhập thành công!');
     chonVaiTro('admin');
   } else {
-    hienToast('Sai mật khẩu quản trị');
+    hienToast('❌ Sai mật khẩu quản trị. Vui lòng thử lại.');
+    console.error('❌ Lỗi đăng nhập:', res.message || 'Sai mật khẩu');
   }
 }
 
@@ -218,7 +269,7 @@ function xacNhanXoaThongBao(id) {
     <div class="modal-box">
       <h3>🗑️ Xoá thông báo</h3>
       <div class="modal-sub">Nhập lại mật khẩu quản trị để xác nhận xoá. Thao tác này không thể hoàn tác.</div>
-      <input type="password" id="inpXoaPass" placeholder="Mật khẩu quản trị">
+      ${taoInputPassword('inpXoaPass', 'Nhập mật khẩu quản trị')}
       <div class="modal-actions">
         <button class="btn btn-outline" onclick="dongModal()">Huỷ</button>
         <button class="btn btn-danger" onclick="thucHienXoaThongBao('${id}')">Xoá</button>
@@ -428,7 +479,7 @@ function xacNhanXoaYKien(id) {
     <div class="modal-box">
       <h3>🗑️ Xoá thông tin</h3>
       <div class="modal-sub">Nhập lại mật khẩu quản trị để xác nhận xoá. Thao tác này không thể hoàn tác.</div>
-      <input type="password" id="inpXoaPass2" placeholder="Mật khẩu quản trị">
+      ${taoInputPassword('inpXoaPass2', 'Nhập mật khẩu quản trị')}
       <div class="modal-actions">
         <button class="btn btn-outline" onclick="dongModal()">Huỷ</button>
         <button class="btn btn-danger" onclick="thucHienXoaYKien('${id}')">Xoá</button>
@@ -452,11 +503,11 @@ function renderAdminCaiDat() {
   document.getElementById('content').innerHTML = `
     <div class="card">
       <label>Mật khẩu hiện tại</label>
-      <input type="password" id="matKhauCu" placeholder="Mật khẩu hiện tại">
+      ${taoInputPassword('matKhauCu', 'Mật khẩu hiện tại')}
       <label>Mật khẩu mới</label>
-      <input type="password" id="matKhauMoi" placeholder="Mật khẩu mới (ít nhất 4 ký tự)">
+      ${taoInputPassword('matKhauMoi', 'Mật khẩu mới (ít nhất 4 ký tự)')}
       <label>Nhập lại mật khẩu mới</label>
-      <input type="password" id="matKhauMoiLai" placeholder="Nhập lại mật khẩu mới">
+      ${taoInputPassword('matKhauMoiLai', 'Nhập lại mật khẩu mới')}
       <button class="btn btn-primary" onclick="doiMatKhau()">🔒 Đổi mật khẩu</button>
     </div>
   `;
