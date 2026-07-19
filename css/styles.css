@@ -38,7 +38,7 @@ html, body {
   padding-bottom: 78px;
 }
 
-/* ---------- Header (canh giữa tiêu đề) ---------- */
+/* ---------- Header (bỏ bo góc) ---------- */
 .app-header {
   position: sticky;
   top: 0;
@@ -46,7 +46,7 @@ html, body {
   background: linear-gradient(120deg, var(--blue-800), var(--blue-600));
   color: #fff;
   padding: 18px 18px 20px;
-  border-radius: 0 0 22px 22px;
+  border-radius: 0; /* Bỏ bo góc */
   box-shadow: var(--shadow);
   text-align: center;
 }
@@ -299,6 +299,33 @@ input:focus, textarea:focus, select:focus { outline: 2px solid var(--blue-500); 
 }
 .nav-item .nav-emoji { font-size: 20px; display:block; margin-bottom: 2px; }
 .nav-item.active { color: var(--blue-600); }
+
+/* ---------- Password toggle ---------- */
+.password-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-top: 4px;
+}
+.password-wrapper input {
+  flex: 1;
+  padding-right: 48px;
+}
+.password-toggle {
+  position: absolute;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: var(--gray-500);
+  padding: 4px 8px;
+  border-radius: 8px;
+  transition: background 0.15s;
+}
+.password-toggle:active {
+  background: var(--blue-100);
+}
 
 /* ---------- Misc ---------- */
 .empty-state { text-align: center; padding: 40px 10px; color: var(--gray-500); }
