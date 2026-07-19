@@ -1,0 +1,325 @@
+:root {
+  --blue-900: #0b3d66;
+  --blue-800: #0f4c81;
+  --blue-700: #1565a8;
+  --blue-600: #1a7fd6;
+  --blue-500: #2f9bef;
+  --blue-400: #5eb4f5;
+  --blue-100: #e6f3ff;
+  --blue-50: #f2f9ff;
+  --teal: #14b8a6;
+  --amber: #f5a623;
+  --red: #e0442f;
+  --gray-900: #1c2733;
+  --gray-500: #6b7c8f;
+  --gray-200: #dfe8f0;
+  --white: #ffffff;
+  --radius: 16px;
+  --shadow: 0 4px 16px rgba(15, 76, 129, 0.10);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background: linear-gradient(180deg, var(--blue-50) 0%, #eef6fc 100%);
+  color: var(--gray-900);
+  -webkit-tap-highlight-color: transparent;
+}
+
+#app {
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100vh;
+  background: var(--blue-50);
+  position: relative;
+  padding-bottom: 78px;
+}
+
+/* ---------- Header (canh giữa tiêu đề) ---------- */
+.app-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: linear-gradient(120deg, var(--blue-800), var(--blue-600));
+  color: #fff;
+  padding: 18px 18px 20px;
+  border-radius: 0 0 22px 22px;
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+.app-header .title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.app-header .spacer { width: 38px; flex-shrink: 0; }
+.app-header h1 {
+  flex: 1;
+  font-size: 18px;
+  margin: 0;
+  font-weight: 700;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.app-header .subtitle {
+  font-size: 12.5px;
+  opacity: 0.85;
+  margin-top: 4px;
+  text-align: center;
+}
+.icon-btn {
+  background: rgba(255,255,255,0.18);
+  border: none;
+  color: #fff;
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.icon-btn:active { background: rgba(255,255,255,0.32); }
+
+/* ---------- Content ---------- */
+.content { padding: 16px; }
+
+.card {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 16px;
+  margin-bottom: 14px;
+}
+
+.section-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--blue-900);
+  margin: 4px 2px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.home-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 6px;
+}
+.home-tile {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 18px 12px;
+  text-align: center;
+  cursor: pointer;
+  transition: transform .12s ease;
+  border: 1px solid var(--blue-100);
+}
+.home-tile:active { transform: scale(0.96); }
+.home-tile .emoji { font-size: 30px; display: block; margin-bottom: 8px; }
+.home-tile .label { font-weight: 700; font-size: 13.5px; color: var(--blue-900); }
+.home-tile.teal { background: linear-gradient(160deg, #e5fbf8, #ffffff); border-color: #cdf3ec;}
+.home-tile.amber { background: linear-gradient(160deg, #fff6e6, #ffffff); border-color: #ffe6b3;}
+.home-tile.blue { background: linear-gradient(160deg, var(--blue-100), #ffffff); }
+.home-tile.gray { background: linear-gradient(160deg, #f0f3f7, #ffffff); }
+
+/* ---------- Thông báo dạng accordion (chạm để xổ ra) ---------- */
+.notice-item {
+  border-radius: 14px;
+  padding: 12px 14px;
+  margin-bottom: 10px;
+  background: var(--blue-50);
+  border: 1px solid var(--blue-100);
+  position: relative;
+  cursor: pointer;
+}
+.notice-item.pinned {
+  background: linear-gradient(120deg, #fff8e8, #fffdf5);
+  border: 1px solid #ffe2a8;
+}
+.notice-item .pin-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--amber);
+  background: #fff3d9;
+  padding: 2px 8px;
+  border-radius: 20px;
+  margin-bottom: 6px;
+}
+.notice-item .notice-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.notice-item h3 { margin: 0; font-size: 14.5px; color: var(--blue-900); flex: 1; }
+.notice-item .chevron {
+  font-size: 12px; color: var(--gray-500); transition: transform .15s ease; flex-shrink: 0;
+}
+.notice-item.expanded .chevron { transform: rotate(180deg); }
+.notice-item .notice-body {
+  display: none;
+  margin-top: 8px;
+}
+.notice-item.expanded .notice-body { display: block; }
+.notice-item p { margin: 0; font-size: 13.5px; color: var(--gray-900); line-height: 1.5; white-space: pre-wrap; }
+.notice-item .meta { margin-top: 8px; font-size: 11.5px; color: var(--gray-500); display:flex; justify-content: space-between; align-items:center;}
+.del-btn {
+  border: none; background: #fdeceb; color: var(--red); font-size: 11.5px;
+  padding: 4px 10px; border-radius: 20px; cursor: pointer; font-weight: 600;
+}
+
+/* ---------- Danh sách chi hội ---------- */
+.member-search {
+  width: 100%;
+  padding: 11px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--gray-200);
+  font-size: 14px;
+  margin-bottom: 12px;
+  background: var(--white);
+}
+.member-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 6px;
+  border-bottom: 1px solid var(--blue-100);
+}
+.member-avatar {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--blue-500), var(--teal));
+  color: #fff; display:flex; align-items:center; justify-content:center;
+  font-weight: 700; font-size: 15px; flex-shrink: 0;
+}
+.member-info .name { font-weight: 700; font-size: 14px; color: var(--gray-900); }
+.member-info .sub { font-size: 12px; color: var(--gray-500); }
+.member-count {
+  font-size: 12.5px; color: var(--gray-500); margin-bottom: 8px; text-align: center;
+}
+
+/* ---------- Form ---------- */
+label { font-size: 13px; font-weight: 600; color: var(--blue-900); display: block; margin: 12px 0 6px; }
+input[type=text], input[type=tel], input[type=password], textarea, select {
+  width: 100%;
+  padding: 12px 13px;
+  border-radius: 12px;
+  border: 1px solid var(--gray-200);
+  font-size: 14px;
+  font-family: inherit;
+  background: var(--white);
+  color: var(--gray-900);
+}
+textarea { min-height: 100px; resize: vertical; }
+input:focus, textarea:focus, select:focus { outline: 2px solid var(--blue-500); border-color: var(--blue-500); }
+
+.btn {
+  width: 100%;
+  padding: 13px;
+  border-radius: 14px;
+  border: none;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  margin-top: 16px;
+}
+.btn-primary { background: linear-gradient(120deg, var(--blue-700), var(--blue-500)); color: #fff; }
+.btn-primary:active { opacity: 0.85; }
+.btn-outline { background: #fff; color: var(--blue-700); border: 1.5px solid var(--blue-500); }
+.btn-danger { background: var(--red); color: #fff; }
+
+.radio-group { display: flex; gap: 10px; margin-top: 8px; }
+.radio-chip {
+  flex: 1; text-align: center; padding: 10px 6px; border-radius: 12px;
+  border: 1.5px solid var(--gray-200); font-size: 13px; font-weight: 600;
+  color: var(--gray-500); cursor: pointer; background: #fff;
+}
+.radio-chip.active { border-color: var(--blue-600); color: var(--blue-700); background: var(--blue-100); }
+
+/* ---------- Role select screen ---------- */
+.role-screen {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 32px 24px;
+  background: linear-gradient(160deg, var(--blue-900), var(--blue-600) 60%, var(--teal));
+  text-align: center;
+}
+.role-screen .logo-circle {
+  width: 84px; height: 84px; border-radius: 50%;
+  background: rgba(255,255,255,0.15);
+  display:flex; align-items:center; justify-content:center;
+  font-size: 40px; margin-bottom: 18px;
+}
+.role-screen h1 { color: #fff; font-size: 22px; margin: 0 0 4px; text-align:center; }
+.role-screen p { color: rgba(255,255,255,0.85); font-size: 13.5px; margin: 0 0 30px; }
+.role-btn {
+  width: 100%; max-width: 300px; padding: 15px;
+  border-radius: 16px; border: none; margin-bottom: 14px;
+  font-size: 15px; font-weight: 700; cursor: pointer;
+  display:flex; align-items:center; justify-content:center; gap: 10px;
+}
+.role-btn.member { background: #fff; color: var(--blue-800); }
+.role-btn.admin { background: rgba(255,255,255,0.15); color: #fff; border: 1.5px solid rgba(255,255,255,0.5); }
+
+/* ---------- Bottom nav (menu canh giữa) ---------- */
+.bottom-nav {
+  position: fixed;
+  bottom: 0; left: 50%; transform: translateX(-50%);
+  width: 100%; max-width: 480px;
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  border-top: 1px solid var(--blue-100);
+  box-shadow: 0 -4px 16px rgba(15,76,129,0.08);
+  z-index: 30;
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+.nav-item {
+  flex: 1; text-align: center; padding: 10px 4px 8px;
+  cursor: pointer; color: var(--gray-500); font-size: 11px; font-weight: 600;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+}
+.nav-item .nav-emoji { font-size: 20px; display:block; margin-bottom: 2px; }
+.nav-item.active { color: var(--blue-600); }
+
+/* ---------- Misc ---------- */
+.empty-state { text-align: center; padding: 40px 10px; color: var(--gray-500); }
+.empty-state .emoji { font-size: 40px; display: block; margin-bottom: 10px; }
+.toast {
+  position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%);
+  background: var(--gray-900); color: #fff; padding: 11px 18px; border-radius: 30px;
+  font-size: 13.5px; z-index: 100; box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+  max-width: 90%; text-align: center;
+}
+.modal-overlay {
+  position: fixed; inset: 0; background: rgba(10,30,50,0.45);
+  display: flex; align-items: center; justify-content: center; z-index: 200;
+  padding: 20px;
+}
+.modal-box {
+  background: #fff; border-radius: 18px; padding: 22px; width: 100%; max-width: 340px;
+}
+.modal-box h3 { margin: 0 0 4px; color: var(--blue-900); font-size: 16px; text-align: center; }
+.modal-box .modal-sub { font-size: 12.5px; color: var(--gray-500); margin-bottom: 14px; text-align: center; }
+.modal-actions { display: flex; gap: 10px; margin-top: 16px; }
+.modal-actions .btn { margin-top: 0; }
+.spinner { text-align:center; padding: 30px; color: var(--gray-500); font-size:13px; }
+.top-actions { display:flex; gap:8px; }
