@@ -545,3 +545,4 @@ textarea.form-control { resize: vertical; min-height: 90px; }
 
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: var(--radius-pill); }
+label[for="gate-admin-password"]{ display: block; text-align: center; }
