@@ -269,7 +269,8 @@ a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visib
 }
 .accordion-header .acc-icon .material-symbols-rounded { font-size: 22px; }
 .accordion-header .acc-text { flex: 1; }
-.accordion-header .acc-title { font-family: var(--font-display); font-weight: 700; font-size: 15.5px; }
+.accordion-header .acc-title{ font-family: var(--font-display); font-weight: 800; font-size: 15.5px; color: #1565C0; transition: color .25s ease; }
+[data-theme="dark"] .accordion-header .acc-title{ color: #7EC8FF; text-shadow: 0 0 6px rgba(126,200,255,.25); }
 .accordion-header .acc-sub { font-size: 12.5px; color: var(--color-text-muted); margin-top: 2px; }
 .accordion-header .acc-chevron {
   transition: transform var(--dur) var(--ease); color: var(--color-text-faint);
